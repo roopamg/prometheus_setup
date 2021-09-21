@@ -1,0 +1,73 @@
+---
+- name: Prometheus Installation
+  hosts: local
+  become: true
+  tasks:
+    - name: Download Prometheus
+      get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.30.0/prometheus-2.30.0.linux-amd64.tar.gz
+        dest: /root
+
+    - name: Untar the file
+      unarchive:
+        src: /root/prometheus-2.30.0.linux-amd64.tar.gz
+        dest: /root
+        
+    - name: Start Prometheus as a service, Copy the content of prometheus folder and paste it on /usr/local/bin folder
+      copy:
+        src: /root/prometheus-2.30.0.linux-amd64/
+        dest: /usr/local/bin/prometheus
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Copy the service file and paste it /etc/systemd/system folder
+      copy:
+        src: /root/prometheus.service
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Reload the daemon
+      systemd: daemon_reload=yes
+
+    - name: start the Prometheus service
+      service:
+        name: prometheus
+        state: started 
+    
+    - name: Download Node-exporter
+      get_url:
+        url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+        dest: /root
+
+    - name: Untar the file
+      unarchive:
+        src: /root/node_exporter-0.18.1.linux-amd64.tar.gz
+        dest: /root
+
+    - name: Start Prometheus node exporter as a service, Copy the content of node_exporter folder and paste it on /usr/local/bin folder
+      copy:
+        src: /root/node_exporter-0.18.1.linux-amd64/node_exporter
+        dest: /usr/local/bin/node_exporter
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Copy the service file and paste it /etc/systemd/system folder
+      copy:
+        src: /root/node-exporter.service
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Reload the daemon
+      systemd: daemon_reload=yes
+
+    - name: start the Prometheus Node-exporter service
+      service:
+        name: node-exporter
+        state: started
+ 
