@@ -1,0 +1,53 @@
+- name: Configuration file
+  hosts: local
+  tasks:
+    - name: insert/update "Node-exporter" configuration block in /usr/local/bin/prometheus/prometheus.yml
+      blockinfile:
+        path: /usr/local/bin/prometheus/prometheus.yml
+        backup: yes
+        block: |2
+            - job_name: 'node-exporter'
+              static_configs:
+                - targets: ['localhost:9100']
+
+    - name: Start prometheus service
+      service:
+        name: prometheus
+        state: started
+
+    - name: Start Node exporter service
+      service:
+        name: node-exporter
+        state: started
+
+    - name: Copy the Prometheus rules file and paste it in /usr/local/bin/prometheus folder
+      copy:
+        src: /root/prometheus_rules.yml
+        dest: /usr/local/bin/prometheus
+        owner: root
+        mode: 755
+
+    - name: Change the working directory to /usr/local/bin/prometheus before executing the command. promtool with check the systex of the prometheus_rules.yml file
+      shell: ./promtool check rules prometheus_rules.yml
+      args:
+        chdir: /usr/local/bin/prometheus
+      register: rules_output
+
+    - debug:
+        var: rules_output
+
+    - name: insert prometheus_rules.yml reference in the prometheus.yml file
+      lineinfile:
+        path: /usr/local/bin/prometheus/prometheus.yml
+        insertafter: "rule_files:"
+        line: '  - "prometheus_rules.yml"'
+        state: present
+      notify: Restart Prometheus
+
+  handlers:
+    - name: Restart Prometheus
+      service:
+        name: prometheus
+        state: restarted
+
+
