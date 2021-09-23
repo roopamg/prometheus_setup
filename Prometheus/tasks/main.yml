@@ -1,0 +1,8 @@
+---
+# tasks file for Prometheus
+  - include: install_prometheus.yml
+  - include: install_node_exporter.yml
+  - include: config_prometheus.yml
+  - include: install_alertmanager.yml
+  - include: config_alertmanager.yml
+  - include: email_config.yml

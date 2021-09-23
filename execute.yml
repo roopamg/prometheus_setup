@@ -1,0 +1,8 @@
+---
+ - name: Roles main file 
+   hosts: local
+   become: yes
+   tasks:
+    - name: Include role
+      include_role:
+         name: Prometheus
