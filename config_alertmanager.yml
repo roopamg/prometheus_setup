@@ -4,16 +4,35 @@
     - name: insert/update "alert-manager" configuration block in /usr/local/bin/prometheus/prometheus_rules.yml
       blockinfile:
         path: /usr/local/bin/prometheus/prometheus_rules.yml
-        insertafter: "expr: 100 - (100 * node_memory_MemFree_bytes / node_memory_MemTotal_bytes)" 
-        block: |
-          - name: alert_rules
-            rules:
-              - alert: InstanceDown
-                expr: up == 0
-                for: 1m
-                labels:
-                  severity: critical
-                annotations:
-                  summary: "Instance [{{ $labels.instance }}] down"
-                  description: "[{{ $labels.instance }}] of job [{{ $labels.job }}] has been down for more than 1 minute."
+        block: |2
+            - name: alert_rules
+              rules:
+                - alert: InstanceDown
+                  expr: up == 0
+                  for: 1m
+                  labels:
+                    severity: critical
+                  annotations:
+                    summary: "Instance down"
+                    description: "Instance has been down for more than 1 minute."
+
+    - name: Use promtool to check the syntax of the prometheus_rules.yml file
+      shell: ./promtool check rules prometheus_rules.yml
+      args:
+        chdir: /usr/local/bin/prometheus
+      register: check_alertrule
+
+    - name: Print the alertrule
+      debug:
+        var: check_alertrule
+
+    - name: Restart Prometheus service
+      service:
+        name: prometheus
+        state: restarted
+
+    - name: Restart Alertmanager service
+      service:
+         name: alertmanager
+         state: restarted
 

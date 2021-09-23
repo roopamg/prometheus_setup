@@ -1,0 +1,36 @@
+- name: Email configuration file
+  hosts: local
+  tasks:
+    - name: Remove the alertmanager.yml file
+      file:
+        path: /usr/local/bin/alertmanager/alertmanager.yml
+        state: absent
+
+    - name: Copy the new conig file from the present directory to the /usr/local/bin/alertmanager folder
+      copy:
+        src: /root/alertmanager.yml
+        dest: /usr/local/bin/alertmanager
+        mode: 755
+
+    - name: Restart prometheus service
+      service:
+        name: prometheus
+        state: restarted
+
+    - name: Restart alertmanager service
+      service:
+        name: alertmanager
+        state: restarted
+
+    - name: Check the syntax of config file
+      shell: /usr/local/bin/alertmanager/amtool check-config /usr/local/bin/alertmanager/alertmanager.yml
+      args:
+        chdir: /usr/local/bin/alertmanager
+
+    - name: Enable alertmanager as target in /usr/local/bin/promtheus/promentheus.yml file
+      blockinfile:
+        path: /usr/local/bin/prometheus/prometheus.yml
+        insertafter: "# - alertmanager:9093"
+        block: |9
+                             - alertmanager:9093
+
