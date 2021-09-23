@@ -13,7 +13,7 @@
 
   - name: Copy the Prometheus rules file and paste it in /usr/local/bin/prometheus folder
     copy:
-      src: /root/prometheus_rules.yml
+      src: prometheus_rules.yml
       dest: /usr/local/bin/prometheus
       owner: root
       mode: 755

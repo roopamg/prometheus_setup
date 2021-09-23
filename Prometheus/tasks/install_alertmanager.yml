@@ -22,7 +22,7 @@
 
   - name: Copy the service file and paste it /etc/systemd/system folder
     copy:
-      src: /root/alertmanager.service
+      src: alertmanager.service
       dest: /etc/systemd/system
       owner: root
       group: root

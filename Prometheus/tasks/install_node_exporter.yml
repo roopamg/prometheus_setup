@@ -19,7 +19,7 @@
 
   - name: Copy the service file and paste it /etc/systemd/system folder
     copy:
-      src: /root/node-exporter.service
+      src: node-exporter.service
       dest: /etc/systemd/system
       owner: root
       group: root

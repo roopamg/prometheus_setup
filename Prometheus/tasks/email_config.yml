@@ -4,9 +4,9 @@
       path: /usr/local/bin/alertmanager/alertmanager.yml
       state: absent
 
-  - name: Copy the new conig file from the present directory to the /usr/local/bin/alertmanager folder
+  - name: Copy the new config file from the present directory to the /usr/local/bin/alertmanager folder
     copy:
-      src: /root/alertmanager.yml
+      src: alertmanager.yml
       dest: /usr/local/bin/alertmanager
       mode: 755
     notify:
