@@ -8,11 +8,6 @@
     unarchive:
       src: /root/alertmanager-0.19.0.linux-amd64.tar.gz
       dest: /root
-        
-      #- name: Start Alert manager as a service, Copy the content of prometheus folder and paste it on /usr/local/bin/alertmanager folder
-      #copy:
-      #src: /root/alertmanager-0.19.0.linux-amd64
-      #dest: /usr/local/bin/
 
   - name: Copy the content of /alertmanager-0.19.0.linux-amd64 folder to alertmanager
     command: cp -r . /usr/local/bin/alertmanager
