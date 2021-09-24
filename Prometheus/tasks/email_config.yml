@@ -23,7 +23,7 @@
       path: /usr/local/bin/prometheus/prometheus.yml
       insertafter: "# - alertmanager:9093"
       line: |9
-                           - alertmanager:9093
+                           - localhost:9093
     notify:
       - Restart prometheus
       - Restart alertmanager
