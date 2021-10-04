@@ -46,4 +46,4 @@
 3. Check the syntax of the config file using amtool
 4. Enable alertmanager as target in `/usr/local/bin/promtheus/promentheus.yml` file
 5. Now, the email configurations is also set in the `prometheus.yml file`
-5. As the alert is set on Instancedown within 10s. Alert will be sent to the desired the mailid after 10 seconds if any Instance which is configured in the prometheus file is down
+5. As the alert is set on Instancedown within 10s. Alert will be sent to the desired Mail-ID after 10 seconds if any Instance which is configured in the prometheus file is down
