@@ -27,4 +27,4 @@
 
   - name: Reload the daemon
     systemd: daemon_reload=yes
-    notify: Restart node-expoerter
+    notify: Restart node-exporter

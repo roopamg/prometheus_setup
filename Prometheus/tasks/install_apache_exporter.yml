@@ -1,0 +1,42 @@
+---
+  - name: Download apache exporter from the repository
+    get_url:
+      url: https://github.com/Lusitaniae/apache_exporter/releases/download/v0.10.1/apache_exporter-0.10.1.linux-amd64.tar.gz
+      dest: /root
+
+  - name: Untar the file
+    unarchive:
+      src: /root/apache_exporter-0.10.1.linux-amd64.tar.gz
+      dest: /root
+
+  - name: Start Apache exporter as a service, Copy the content of prometheus folder and paste it on /usr/local/bin folder
+    copy:
+      src: /root/apache_exporter-0.10.1.linux-amd64.tar.gz/apache_exporter 
+      dest: /usr/local/bin/apache_exporter
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Copy the service file and paste it /etc/systemd/system folder
+    copy:
+      src: apache-exporter.service
+      dest: /etc/systemd/system
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Reload the daemon
+    systemd: daemon_reload=yes
+    notify: Restart apache-exporter
+
+  - name: insert/update "Apache-exporter" configuration block in /usr/local/bin/prometheus/prometheus.yml
+    blockinfile:
+      path: /usr/local/bin/prometheus/prometheus.yml
+      backup: yes
+      block: |2
+          - job_name: 'apache-exporter'
+            static_configs:
+              - targets: ['0.0.0.0:9117']
+    notify:
+      - Restart prometheus
+      - Restart apache-exporter

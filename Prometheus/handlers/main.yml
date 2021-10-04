@@ -15,3 +15,7 @@
         name: alertmanager
         state: restarted
 
+   - name: Restart apache-exporter
+     service:
+       name: apache-exporter
+       state: restarted

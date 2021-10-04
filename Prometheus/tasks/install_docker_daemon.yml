@@ -1,0 +1,51 @@
+---
+  - name: Install docker
+    apt:
+      name: "{{ item }}"
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+
+  - name: Add Docker’s official GPG key
+    shell: |
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+      echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+  - name: Install docker
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+    with_items:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+  - name: Start and Enable Docker
+    shell: |
+      systemctl start docker
+      systemctl enable docker
+
+  - name: insert/update configuration block in /etc/docker/daemon.json
+    blockinfile:
+      path: /etc/docker/daemon.json
+      block: |
+        {
+          "metrics-addr" : "0.0.0.0:9323",
+          "experimental" : true
+        } 
+      
+  - name: Insert reference as target in /usr/local/bin/prometheus/prometheus.yml file
+    blockinfile:
+      path: /usr/local/bin/prometheus/prometheus.yml
+      block: |2
+          - job_name: 'node-exporter'
+            static_configs:
+              - targets: ['0.0.0.0:9323']
+    notify:
+      - Restart prometheus
+
