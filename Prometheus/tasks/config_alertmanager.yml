@@ -28,6 +28,8 @@
     blockinfile:
       path: /usr/local/bin/prometheus/prometheus.yml
       backup: yes
+      marker: ""
+      insertafter: "  - targets: ['localhost:9100']"
       block: |2
           - job_name: 'alertmanager'
             static_configs:

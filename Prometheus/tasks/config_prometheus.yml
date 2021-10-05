@@ -4,7 +4,7 @@
       path: /usr/local/bin/prometheus/prometheus.yml
       backup: yes
       state: present
-      create: yes
+      marker: ""
       block: |2
           - job_name: 'node-exporter'
             static_configs:

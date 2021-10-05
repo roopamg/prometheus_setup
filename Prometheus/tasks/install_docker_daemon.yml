@@ -50,6 +50,9 @@
   - name: Insert reference as target in /usr/local/bin/prometheus/prometheus.yml file
     blockinfile:
       path: /usr/local/bin/prometheus/prometheus.yml
+      state: present
+      marker: ""
+      insertafter: "  - targets: ['0.0.0.0:9117']"
       block: |2
           - job_name: 'docker-daemon'
             static_configs:

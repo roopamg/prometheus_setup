@@ -19,3 +19,8 @@
      service:
        name: apache-exporter
        state: restarted
+
+   - name: Restart blackbox-exporter
+     service:
+       name: blackbox-exporter
+       state: restarted
