@@ -1,0 +1,12 @@
+---
+  - name: Download Blackbox exporter
+    get_url: 
+      url: https://github.com/prometheus/blackbox_exporter/releases/download/v0.19.0/blackbox_exporter-0.19.0.linux-amd64.tar.gz
+      dest: /root
+
+  - name: Untar the file
+    unarchive:
+      src: /root/blackbox_exporter-0.19.0.linux-amd64.tar.gz
+      dest: /root
+
+

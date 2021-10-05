@@ -23,6 +23,14 @@
   - name: Print the alertrule
     debug:
       var: check_alertrule
+
+  - name: insert/update "Alertmanager" configuration block in /usr/local/bin/prometheus/prometheus.yml
+    blockinfile:
+      path: /usr/local/bin/prometheus/prometheus.yml
+      backup: yes
+      block: |2
+          - job_name: 'alertmanager'
+            static_configs:
+              - targets: ['localhost:9093']
     notify:
       - Restart prometheus
-      - Restart node-exporter

@@ -9,6 +9,14 @@
       src: /root/node_exporter-0.18.1.linux-amd64.tar.gz
       dest: /root
 
+  - name: Change file ownership, group and permissions
+    file:
+      path: /usr/local/bin/node_exporter
+      owner: root
+      group: root
+      mode: '0644'
+      state: directory
+
   - name: Start Prometheus node exporter as a service, Copy the content of node_exporter folder and paste it on /usr/local/bin folder
     copy:
       src: /root/node_exporter-0.18.1.linux-amd64/node_exporter

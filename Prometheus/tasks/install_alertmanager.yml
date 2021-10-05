@@ -9,11 +9,36 @@
       src: /root/alertmanager-0.19.0.linux-amd64.tar.gz
       dest: /root
 
-  - name: Copy the content of /alertmanager-0.19.0.linux-amd64 folder to alertmanager
-    command: cp -r . /usr/local/bin/alertmanager
-    args:
-      chdir: /root/alertmanager-0.19.0.linux-amd64
-    ignore_errors: yes
+  - name: Create alertmanager folder
+    file:
+      path: /usr/local/bin/alertmanager
+      owner: root
+      group: root
+      mode: '0644'
+      state: directory
+
+  - name: Copy content from alertmanager
+    copy:
+      src: "{{ item }}"
+      dest: /usr/local/bin/alertmanager
+      mode: 0644
+    with_items:
+      -  /root/alertmanager-0.19.0.linux-amd64/alertmanager
+      -  /root/alertmanager-0.19.0.linux-amd64/alertmanager.yml
+      -  /root/alertmanager-0.19.0.linux-amd64/amtool
+
+        #  - name: Copy the content of /alertmanager-0.19.0.linux-amd64 folder to alertmanager
+        # command: cp -r . /usr/local/bin/alertmanager
+        # args:
+        #  chdir: /root/alertmanager-0.19.0.linux-amd64
+        #  ignore_errors: yes
+        
+  - name: Grant Permission to amtool
+    file:
+      path: /usr/local/bin/alertmanager/amtool
+      owner: root
+      group: root
+      mode: '0655'
 
   - name: Copy the service file and paste it /etc/systemd/system folder
     copy:
