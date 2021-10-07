@@ -42,7 +42,7 @@
       path: /usr/local/bin/prometheus/prometheus.yml
       backup: yes
       state: present
-      #marker: ""
+      marker: "#testblock_blackbox"
       #insertafter: "  - targets: ['0.0.0.0:9323']"
       block: |2
           - job_name: 'blackbox'
