@@ -34,8 +34,8 @@
       path: /usr/local/bin/prometheus/prometheus.yml
       backup: yes
       state: present
-      marker: ""
-      insertafter: "  - targets: ['localhost:9093']"
+      marker: "#tested"
+      #insertafter: "  - targets: ['localhost:9093']"
       block: |2
           - job_name: 'apache-exporter'
             static_configs:

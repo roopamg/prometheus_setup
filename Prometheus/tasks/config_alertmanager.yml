@@ -28,8 +28,9 @@
     blockinfile:
       path: /usr/local/bin/prometheus/prometheus.yml
       backup: yes
-      marker: ""
-      insertafter: "  - targets: ['localhost:9100']"
+      #marker: ""
+      #insertafter: "#test_block"
+      #insertafter: "# END ANSIBLE MANAGED BLOCK"
       block: |2
           - job_name: 'alertmanager'
             static_configs:
