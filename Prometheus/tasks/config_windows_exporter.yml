@@ -1,0 +1,12 @@
+---
+  - name: insert/update "Alertmanager" configuration block in /usr/local/bin/prometheus/prometheus.yml
+    blockinfile:
+      path: /usr/local/bin/prometheus/prometheus.yml
+      backup: yes
+      #marker: ""
+      #insertafter: "#test_block"
+      #insertafter: "# END ANSIBLE MANAGED BLOCK"
+      block: |2
+          - job_name: 'windows_exporter'
+            static_configs:
+              - targets: ['{{windows_ip}}:9182']
