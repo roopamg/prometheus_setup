@@ -2,4 +2,4 @@
 127.0.0.1 ansible_connection=local
 
 [windows]
-172.31.31.186 ansible_connection=winrm ansible_user=Administrator ansible_password=D8?q?W*v8v4OC-N5AKgAsELGgDOIFZ(h ansible_port=5985 ansible_cert_validation=ignore ansible_winrm_server_cert_validation=ignore ansible_winrm_transport=basic
+172.31.25.213 ansible_user=Administrator ansible_password=(uqvnXy$L;T=iMCKdju$@Ei4S5CPlNYK ansible_connection=winrm ansible_winrm_transport=basic ansible_winrm_port=5985 

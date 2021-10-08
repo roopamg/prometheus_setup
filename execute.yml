@@ -1,7 +1,6 @@
 ---
  - name: Roles main file 
-   hosts: local
-   become: yes
+   hosts: windows
    tasks:
     - name: Include role
       include_role:

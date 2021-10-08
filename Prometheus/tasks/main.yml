@@ -1,12 +1,13 @@
 ---
 # tasks file for Prometheus
- - include: install_prometheus.yml
- - include: install_node_exporter.yml
- - include: config_prometheus.yml
- - include: install_alertmanager.yml
- - include: config_alertmanager.yml
- - include: email_config.yml
- - include: install_apache_exporter.yml
- - include: install_docker_daemon.yml
- - include: install_blackbox_exporter.yml
+# - include: install_prometheus.yml
+   # - include: install_node_exporter.yml
+   # - include: config_prometheus.yml
+   # - include: install_alertmanager.yml
+   # - include: config_alertmanager.yml
+   # - include: email_config.yml
+   # - include: install_apache_exporter.yml
+   # - include: install_docker_daemon.yml
+   # - include: install_blackbox_exporter.yml
     #  - include: tes.yaml
+ - include: install_windows_exporter.yml
